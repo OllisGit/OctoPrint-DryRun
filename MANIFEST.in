@@ -1,0 +1,4 @@
+include README.md
+recursive-include octoprint_DryRun/templates *
+recursive-include octoprint_DryRun/translations *
+recursive-include octoprint_DryRun/static *
