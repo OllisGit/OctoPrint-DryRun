@@ -1,17 +1,18 @@
 # DryRun
+A Octoprint-Plugin that allows to execute a print without heating your bed or nozzle, turning on any fans, or extruding any filament.
 
-**TODO:** Describe what your plugin does.
+The implementation is based on the "test-mode" from [Octolapse](https://github.com/FormerLurker/Octolapse/)
+
+![screenshot](screenshots/StateAndNavBar.jpg "DryRun is activated via State-Menu")
 
 ## Setup
-
-Install via the bundled [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager)
+Install via the bundled [Plugin Manager](http://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
 or manually using this URL:
 
     https://github.com/OllisGit/OctoPrint-DryRun/archive/master.zip
 
-**TODO:** Describe how to install your plugin, if more needs to be done than just installing it via pip or through
-the plugin manager.
-
 ## Configuration
+Done via Settings-Menü
 
-**TODO:** Describe your plugin's configuration options (if any).
+## Versions
+see [Release-Overview](https://github.com/OllisGit/OctoPrint-DryRun/releases/)
