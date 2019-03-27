@@ -46,19 +46,19 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_gcode_queuing(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
 
-        # needed to handle non utf-8 characters
-        command_string = cmd.encode('ascii', 'ignore')
+        if self.dryRunEnabled == True:
+            # needed to handle non utf-8 characters
+            command_string = cmd.encode('ascii', 'ignore')
 
-        parsed_command = Commands.parse(command_string)
-        if parsed_command.error is not None:
-            self._logger.error(
-                "An error occurred while parsing the command string.  Details: {0}".format(parsed_command.error)
-            )
-            # Send the original unaltered command
-            return None,
+            parsed_command = Commands.parse(command_string)
+            if parsed_command.error is not None:
+                self._logger.error(
+                    "An error occurred while parsing the command string.  Details: {0}".format(parsed_command.error)
+                )
+                # Send the original unaltered command
+                return None,
 
-        if parsed_command.cmd is not None:
-            if self.dryRunEnabled == True:
+            if parsed_command.cmd is not None:
                 alteredCommands = Commands.alter_for_test_mode(parsed_command)
                 return alteredCommands
 
