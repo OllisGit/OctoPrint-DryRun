@@ -1,40 +1,11 @@
 # coding=utf-8
 from __future__ import absolute_import
-
-### (Don't forget to remove me)
-# This is a basic skeleton for your plugin's __init__.py. You probably want to adjust the class name of your plugin
-# as well as the plugin mixins it's subclassing from. This is really just a basic skeleton to get you started,
-# defining your plugin as a template plugin, settings and asset plugin. Feel free to add or remove mixins
-# as necessary.
-#
-# Take a look at the documentation on what other plugin mixins are available.
+from octoprint.server import user_permission
 
 import octoprint.plugin
-
-import re
-import flask
+from flask import make_response
 
 from octoprint_DryRun.gcode_parser import Commands, ParsedCommand, Response
-
-DEFAULT_EXCLUDE_EXPRESSIONS = (
-    "match [^G[0-1] E[+]*[0-9]+[.]*[0-9]* F[0-9]+] single extrude, feedrate at the end \n"
-    "match [^G[0-1] F[0-9]+ E[+]*[0-9]+[.]*[0-9]*] single extrude, feedrate at the beginning \n"
-    "match 	[^M104 ] Set extruder temp \n"
-    "match 	[^M109 ] Set extruder temp and wait \n"
-    "match 	[^M140 ] Set bed temp \n"
-    "match 	[^M190 ] Wait for bed temp to reach target \n"
-    "match 	[^M141 ] Set chamber temp \n"
-    "match 	[^M191 ] Wait for chamber temp to reach target \n"
-    "match 	[^M116 ] Wait \n"
-    "match 	[^M106 ] Fan on \n"
-    "match 	[^M107 ] Fan off \n"
-    "match 	[^M101 ] Turn extruder 1 on \n"
-    "match 	[^M102 ] Turn extruder 1 on reverse \n"
-    "match 	[^M103 ] Turn all extruders off \n"
-    "match 	[^M128 ] Extruder pressure PWM \n"
-    "remove 2	[(G[0|1] .*)(E[+]*[0-9]+[.]*[0-9]*)(.*)] Remove Extrude value \n"
-)
-
 
 class DryrunPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.AssetPlugin,
@@ -45,7 +16,6 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
     dryRunEnabled = False
 
     def on_gcode_queuing(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
-
         if self.dryRunEnabled == True:
             # needed to handle non utf-8 characters
             command_string = cmd.encode('ascii', 'ignore')
@@ -66,65 +36,29 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
         return None
 
     ## Web-UI - Stuff
-    # list all callowed ommands/parameter that are valid to send from the web-ui
+    # list all called commands/parameter that are valid to send from the web-ui
     def get_api_commands(self):
         # command with parameters
         return dict(checkboxState=["checkboxValue"],
                     disable=[],
                     abort=[])
 
-    # ~~ TemplatePlugin mixin
-#    def get_template_configs(self):
-#        return [
-#            dict(type="settings", custom_bindings=True)
-#        ]
-
-
     def on_api_command(self, command, data):
-        #if not user_permission.can():
-        #    return make_response("Insufficient rights", 403)
+        if not user_permission.can():
+            return make_response("Insufficient rights", 403)
         if command == "checkboxState":
             self.dryRunEnabled = bool(data["checkboxValue"])
-
-    ## Needed for resetSettings
-    def on_api_get(self, request):
-        if len(request.values) != 0:
-            action = request.values["action"]
-            ## RESET Settings Handling
-            if ("isResetSettingsEnabled" == action):
-                return flask.jsonify(enabled="true")
-
-            if ("resetSettings" == action):
-                self._settings.set([], self.get_settings_defaults())
-                self._settings.save()
-                return flask.jsonify(self.get_settings_defaults())
-
-    ##~~ SettingsPlugin mixin
-    def get_settings_defaults(self):
-        return dict(
-            ## Not used at the moment
-            excludeExpressions=DEFAULT_EXCLUDE_EXPRESSIONS
-        )
 
     ##~~ AssetPlugin mixin
     def get_assets(self):
         # Define your plugin's asset files to automatically include in the
         return dict(
-            js=["js/DryRun.js",
-                "js/ns-autogrow.js",
-                "js/autosize.js",
-                "js/numberedtextarea.js",
-                "js/ResetSettingsUtil.js",
-                ],
-            css=["css/DryRun.css",
-                 "css/numberedtextarea.css"],
+            js=["js/DryRun.js"],
+            css=["css/DryRun.css"],
             less=["less/DryRun.less"]
         )
 
-    # core UI here.
-
     ##~~ Softwareupdate hook
-
     def get_update_information(self):
         # Define the configuration for your plugin to use with the Software Update
         # Plugin here. See https://github.com/foosel/OctoPrint/wiki/Plugin:-Software-Update
@@ -144,7 +78,6 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
                 pip="https://github.com/OllisGit/OctoPrint-DryRun/archive/{target_version}.zip"
             )
         )
-
 
 # If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that

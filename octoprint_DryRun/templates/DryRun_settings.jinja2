@@ -1,51 +1,4 @@
 <span id="dryRun_plugin_settings">
-
-<!-- NOT USED AT THE MOMEMNT
-
-    <div class="control-group">
-        <div >
-            <label class="checkbox">Send "cool down" (<code>M104 S0;</code> Set Hot-end to 0C (off) and <code>M140 S0;</code> Set bed to 0C (off))
-                <input type="checkbox" >
-            </label>
-        </div>
-        <div >
-            <label class="checkbox">Send "fan off" (<code>M107</code>)
-                <input type="checkbox" >
-            </label>
-        </div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span12">
-            <label>Following expressions are used to exclude g-code commands:
-            </label>
-        </div>
-        <div class="span12">
-            <textarea id="excludeExpressionsTextArea"  rows="15" cols="120" style="width:90%;">
-    remove 3	[(G[0|1] .*)(E[+]*[0-9]+[.]*[0-9]*)(.*)] Remove Extrude value
-    match 	[^M104 ] Set extruder temp
-    match 	[^M109 ] Set extruder temp and wait
-    match 	[^M140 ] Set bed temp
-    match 	[^M190 ] Wait for bed temp to reach target
-    match 	[^M141 ] Set chamber temp
-    match 	[^M191 ] Wait for chamber temp to reach target
-    match 	[^M116 ] Wait
-    match 	[^M106 ] Fan on
-    match 	[^M107 ] Fan off
-    match 	[^M101 ] Turn extruder 1 on
-    match 	[^M102 ] Turn extruder 1 on reverse
-    match 	[^M103 ] Turn all extruders off
-    match 	[^M128 ] Extruder pressure PWM
-            </textarea>
-            <p>
-            The pattern of the expressions is:<code>mode [regularExpression] comment</code><br/>
-            <i>mode = <code>match</code> or <code>remove groupIndex</code></i><br/>
-            </p>
-        </div>
-      </div>
-    </div>
--->
     <div class="control-group">
         <div >
             <label>If you have <b>Repetier Firmware</b>, "dry run" mode is already built in,
@@ -54,6 +7,4 @@
             </label>
         </div>
     </div>
-
-
 </span>
