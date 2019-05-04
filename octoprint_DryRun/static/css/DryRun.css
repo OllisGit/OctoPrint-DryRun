@@ -18,3 +18,12 @@
     color: #fff;
     background-color: #eb0000;
 }
+
+#dryRunCheckboxDiv{
+    padding-top:40px;
+}
+
+#touch #dryRunCheckboxDiv{
+    padding-top:65px;
+}
+

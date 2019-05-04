@@ -15,14 +15,14 @@ $(function() {
         // self.loginStateViewModel = parameters[0];
         self.settingsViewModel = parameters[1];
 
-//        self.dryRunActive = ko.observable();
-
         // add checkbox AFTER everything is loaded
         $(function() {
             var dryRunCheckBoxHTML = ""+
-                "<div id='dryRunCheckboxDiv' style='padding-top:40px'>"+
-                    "<input id='dryRunCheckBox' type='checkbox'> print without heating/extrusion"+
-                "</div>"
+                "<div id='dryRunCheckboxDiv' >"+
+                    "<label class='checkbox'>"+
+                        "<input id='dryRunCheckBox' type='checkbox'> print without heating/extrusion"+
+                    "</label>"+
+                "</div>";
             var lastJobButton = $('#job_print').parent().children().last();
             lastJobButton.after(dryRunCheckBoxHTML);
 
