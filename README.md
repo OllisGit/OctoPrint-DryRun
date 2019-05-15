@@ -14,7 +14,7 @@ The implementation is based on the "test-mode" from [Octolapse](https://github.c
 Install via the bundled [Plugin Manager](http://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
 or manually using this URL:
 
-    https://github.com/OllisGit/OctoPrint-DryRun/archive/master.zip
+    https://github.com/OllisGit/OctoPrint-DryRun/releases/latest/download/master.zip
 
 ## Configuration
 Done via Settings-Menü
