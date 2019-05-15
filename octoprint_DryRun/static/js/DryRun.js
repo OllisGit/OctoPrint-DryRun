@@ -17,18 +17,37 @@ $(function() {
 
         // add checkbox AFTER everything is loaded
         $(function() {
-            var dryRunCheckBoxHTML = ""+
-                "<div id='dryRunCheckboxDiv' >"+
-                    "<label class='checkbox'>"+
-                        "<input id='dryRunCheckBox' type='checkbox'> print without heating/extrusion"+
-                    "</label>"+
-                "</div>";
+            /* start checkbox - stuff */
+            var dryRunCheckBoxHTML = "<input id='dryRunCheckBox' type='checkbox' data-off-active-cls='btn-success' data-on-active-cls='btn-danger'/>";
+            var offIconHTML = "<span class='fa-stack'><i class='fa fa-thermometer-half fa-stack-1x'></i></span>";
+            var onIconHTML = "<span class='fa-stack'><i class='fa fa-ban fa-stack-1x'></i></span>";
+            var onIconHTMLMobile = "<span class='fa-stack'><i class='fa fa-thermometer-half fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x' style='color: tomato; font-size: 2.6em;'></i></span>";
+
             var lastJobButton = $('#job_print').parent().children().last();
             lastJobButton.after(dryRunCheckBoxHTML);
 
             var dryRunNavBar = $("#dryrun_plugin_navbar");
             var dryRunCheckBox = $("#dryRunCheckBox");
-            dryRunCheckBox.bind("click", function() {
+
+            var dryRunCheckBoxPicker;
+            if ($('html').is('#touch')) {
+                dryRunCheckBoxPicker = dryRunCheckBox.checkboxpicker({
+                  html: true,
+                  offLabel: offIconHTML,
+                  onLabel: onIconHTMLMobile
+                });
+                $('#job_print').parent().find('button').toggleClass('span4 span3');
+                $('#job_print').parent().find('.btn-group').toggleClass('span3');
+            } else {
+                $("#dryRunCheckBox").wrap("<div class='span12 checkbox-wrapper'/>");
+                dryRunCheckBoxPicker = dryRunCheckBox.checkboxpicker({
+                  html: true,
+                  offLabel: offIconHTML + "DryRun OFF",
+                  onLabel: onIconHTML + "DryRun ON"
+                });
+             }
+
+            dryRunCheckBoxPicker.on('change', function() {
                     var checkValue = dryRunCheckBox.is(':checked');
                     // Show/Hide Banner
                     if (checkValue == true){
@@ -47,19 +66,11 @@ $(function() {
                         }),
                         contentType: "application/json; charset=UTF-8"
                     }).done(function(data){
-/*
-                        new PNotify({
-                            title: 'Something was goiing wrong:',
-                            text: "Unknown error occured. PLease reload the page..maybe that fix the problem",
-                            type: "popup",
-                            hide: false
-						});
-*/
-                    }).always(function(){
-//                        self.requestInProgress(false);
-                    }) ;
-                });
 
+                    }).always(function(){
+
+                    }) ;
+            });
 
 
         // receive data from backend
@@ -68,11 +79,9 @@ $(function() {
                 return;
             }
             alert("Data from backend!!!" +JSON.stringify(data));
-
             if (data.dryRunEnabled != undefined){
                 dryRunCheckBox.attr('checked', data.dryRunEnabled);
             }
-
         }
 
         });

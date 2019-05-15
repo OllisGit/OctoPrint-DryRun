@@ -1,16 +1,17 @@
-.dryrun-sidebar {
+
+/* ---------------- NAV - BANNER ---------------------- */
+.dryrun-navbar {
     width:100%;
     background-image: repeating-linear-gradient(-45deg, #000, #000 4px, #ff0 4px, #ff0 8px);
     margin-right: 0 !important; /* override .navbar .nav */
 }
 
-
 .dryrun-btn {
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
     display: block;
     height: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-left: 20px;
     margin-right: 20px;
     font-size: 14px;
@@ -19,11 +20,63 @@
     background-color: #eb0000;
 }
 
-#dryRunCheckboxDiv{
-    padding-top:40px;
-}
-
+/* ---------------- CHECKBOX - STUFF ---------------------- */
 #touch #dryRunCheckboxDiv{
     padding-top:65px;
 }
 
+#touch .print-control .btn-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+#touch .print-control .btn-group .btn {
+    flex-basis: 50%;
+    width: 50%;
+    height: 3.125rem;
+    padding: 0;
+    overflow: hidden;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#touch .print-control .btn-group .btn-default {
+    background: white;
+    color: #000;
+    opacity: .4;
+}
+
+#touch .print-control .btn-group .btn.active {
+    transition: background-color .2s ease,color .2s ease;
+    background: #00B0FF;
+    color: white;
+}
+
+/* Desktop */
+.checkbox-wrapper {
+    margin-top: 10px;
+    margin-left: 0 !important;
+    width: 100% !important;
+    margin-right: 0;
+}
+
+.checkbox-wrapper .btn-group {
+    display: block;
+}
+
+.checkbox-wrapper .btn {
+    width: 50%;
+    max-width: calc(50% - 10px);
+}
+
+/* Icons & Buttons kleiner machen auf Desktop */
+.checkbox-wrapper .btn .fa-stack {
+    height: 13px;
+    width: 13px;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    margin-right: 3px;
+}

@@ -53,7 +53,7 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
     def get_assets(self):
         # Define your plugin's asset files to automatically include in the
         return dict(
-            js=["js/DryRun.js"],
+            js=["js/DryRun.js", "js/bootstrap-checkbox.js"],
             css=["css/DryRun.css"],
             less=["less/DryRun.less"]
         )
@@ -75,7 +75,8 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
                 current=self._plugin_version,
 
                 # update method: pip
-                pip="https://github.com/OllisGit/OctoPrint-DryRun/archive/{target_version}.zip"
+                #pip="https://github.com/OllisGit/OctoPrint-DryRun/archive/{target_version}.zip"
+                pip="https://github.com/OllisGit/OctoPrint-DryRun/releases/latest/download/master.zip"
             )
         )
 
