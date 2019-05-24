@@ -72,22 +72,18 @@ $(function() {
                     }) ;
             });
 
-
         // receive data from backend
         self.onDataUpdaterPluginMessage = function(plugin, data) {
             if (plugin != PLUGIN_ID) {
                 return;
             }
-            alert("Data from backend!!!" +JSON.stringify(data));
+            //alert("Data from backend!!!" +JSON.stringify(data));
             if (data.dryRunEnabled != undefined){
-                dryRunCheckBox.attr('checked', data.dryRunEnabled);
+                dryRunCheckBoxPicker.prop('checked', data.dryRunEnabled);
             }
         }
 
         });
-        // TODO not needed any more -> cleanup
-        //$("#excludeExpressionsTextArea").numberedtextarea();
-        //$("#excludeExpressions").autogrow({vertical: false, horizontal: false});
     }
 
     /* view model class, parameters for constructor, container to bind to

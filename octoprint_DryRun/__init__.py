@@ -1,6 +1,7 @@
 # coding=utf-8
 from __future__ import absolute_import
 from octoprint.server import user_permission
+from octoprint.events import eventManager, Events
 
 import octoprint.plugin
 from flask import make_response
@@ -10,6 +11,7 @@ from octoprint_DryRun.gcode_parser import Commands, ParsedCommand, Response
 class DryrunPlugin(octoprint.plugin.SettingsPlugin,
                    octoprint.plugin.AssetPlugin,
                    octoprint.plugin.TemplatePlugin,
+                   octoprint.plugin.EventHandlerPlugin,
                    octoprint.plugin.SimpleApiPlugin):
 
     # var
@@ -34,6 +36,15 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
 
         # Send the original unaltered command
         return None
+
+
+    def on_event(self, event, payload):
+        if event == Events.CLIENT_OPENED:
+            # Send initial values to the frontend
+            self._plugin_manager.send_plugin_message(self._identifier,
+                                                     dict(dryRunEnabled=self.dryRunEnabled)
+                                                     )
+
 
     ## Web-UI - Stuff
     # list all called commands/parameter that are valid to send from the web-ui
