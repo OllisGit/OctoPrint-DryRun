@@ -28,6 +28,7 @@
 #touch .print-control .btn-group {
     display: flex;
     justify-content: space-between;
+    z-index: 0;
 }
 
 #touch .print-control .btn-group .btn {
