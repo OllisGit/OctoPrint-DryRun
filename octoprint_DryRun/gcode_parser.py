@@ -23,8 +23,10 @@
 ##################################################################################
 import operator
 from six import string_types
-import utility
 import re
+
+from octoprint_DryRun import utility
+
 
 class CommandParameter(object):
     def __init__(self, name, parse_function, order):
@@ -122,12 +124,17 @@ class Command(object):
                 parameter_value, parameters_string = parameter_cmd(parameters_string)
                 parameters[parameter] = parameter_value
                 additional_parameters = self.parse_parameters(parameters_string)
-                if any(filter(parameters.has_key, additional_parameters.keys())):
+                self._myParameters = parameters
+                if any(filter( self.hasKeyReplacement, additional_parameters.keys())):
                     raise ValueError("Either a parameter value was repeated or an unexpected character was found, "
                                      "cannot parse gcode.")
                 parameters.update(additional_parameters)
 
         return parameters
+
+    def hasKeyReplacement(self, keyName):
+        return keyName in self._myParameters
+
 
     def to_string(self):
         # if we do not have gcode, construct from the command and parameters

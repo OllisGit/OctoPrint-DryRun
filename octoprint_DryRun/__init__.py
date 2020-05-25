@@ -19,8 +19,12 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_gcode_queuing(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
         if self.dryRunEnabled == True:
-            # needed to handle non utf-8 characters
-            command_string = cmd.encode('ascii', 'ignore')
+            command_string = ""
+            if (isinstance(cmd, str) == True):
+                command_string = cmd
+            else:
+                # needed to handle non utf-8 characters
+                command_string = cmd.encode('ascii', 'ignore')
 
             parsed_command = Commands.parse(command_string)
             if parsed_command.error is not None:
@@ -95,7 +99,7 @@ class DryrunPlugin(octoprint.plugin.SettingsPlugin,
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
 # can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
 __plugin_name__ = "DryRun Plugin"
-
+__plugin_pythoncompat__ = ">=2.7,<4"
 
 def __plugin_load__():
     global __plugin_implementation__
